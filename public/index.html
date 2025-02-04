@@ -1,17 +1,314 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz Game</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h1>Quiz Game</h1>
-    
-  // Write your code from here 
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Game</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Lato", "sans-serif";
+      }
+      header {
+        background-color: #6278e9a1;
+        color: white;
+        text-align: center;
+        padding: 10px;
+      }
+      .app {
+        background: #fff;
+        max-width: 70vw;
+        margin: 100px auto 0;
+        border-radius: 10px;
+        padding: 30px;
+        border: 2px solid #333;
+        box-shadow: 2px 2px #222;
+      }
+
+      .app h1 {
+        font-size: 25px;
+        color: #001e4d;
+        font-weight: 600;
+        border-bottom: 1px solid #333;
+        padding-bottom: 30px;
+      }
+
+      .quiz {
+        padding: 20px 0;
+      }
+
+      .quiz h2 {
+        font-size: 18px;
+        color: #001e4d;
+        font-weight: 600;
+      }
+
+      .btn {
+        background: #fff;
+        color: #222;
+        font-weight: 500;
+        width: 100%;
+        border: 1px solid #222;
+        padding: 10px;
+        margin: 10px 0;
+        text-align: left;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .btn:hover:not([disabled]) {
+        background: #222;
+        color: #fff;
+      }
+      .btn:disabled {
+        cursor: no-drop;
+      }
+
+      #ques {
+        font-size: 3rem;
+        width: 90%;
+      }
+
+      #nxtBtn {
+        background: #001e4d;
+        color: #fff;
+        font-weight: 500;
+        width: 150px;
+        border: 0;
+        padding: 10px;
+        margin: 20px auto 0;
+        cursor: pointer;
+        display: none;
+      }
+      .correct {
+        background: #9aeabc;
+      }
+
+      .incorrect {
+        background: #ff939f;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="header"><h1>Quiz Game</h1></header>
+    <div class="app">
+      <div class="quiz">
+        <h2 id="ques">Questions</h2>
+        <div id="ansBtns">
+          <!-- <button class="btn">Answer 1</button>
+          <button class="btn">Answer 1</button>
+          <button class="btn">Answer 1</button>
+          <button class="btn">Answer 1</button> -->
+        </div>
+        <button id="nxtBtn">Next</button>
+      </div>
+    </div>
+
+  </body>
+<script>
+
+let questions = [
+  {
+    "question": "What is the largest planet in our solar system?",
+    "options": ["Earth", "Mars", "Jupiter", "Saturn"],
+    "answer": "Jupiter"
+  },
+  {
+    "question": "Which element has the chemical symbol 'O'?",
+    "options": ["Oxygen", "Gold", "Silver", "Iron"],
+    "answer": "Oxygen"
+  },
+  {
+    "question": "What is the capital of Japan?",
+    "options": ["Beijing", "Seoul", "Tokyo", "Bangkok"],
+    "answer": "Tokyo"
+  },
+  {
+    "question": "Who painted the Mona Lisa?",
+    "options": ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Claude Monet"],
+    "answer": "Leonardo da Vinci"
+  },
+  {
+    "question": "What is the smallest prime number?",
+    "options": ["1", "2", "3", "5"],
+    "answer": "2"
+  },
+  {
+    "question": "Which country is known as the Land of the Rising Sun?",
+    "options": ["China", "Japan", "South Korea", "Thailand"],
+    "answer": "Japan"
+  },
+  {
+    "question": "What is the hardest natural substance on Earth?",
+    "options": ["Gold", "Iron", "Diamond", "Graphite"],
+    "answer": "Diamond"
+  },
+  {
+    "question": "Which planet is known as the Red Planet?",
+    "options": ["Earth", "Mars", "Jupiter", "Venus"],
+    "answer": "Mars"
+  },
+  {
+    "question": "What is the largest mammal in the world?",
+    "options": ["Elephant", "Blue Whale", "Giraffe", "Shark"],
+    "answer": "Blue Whale"
+  },
+  {
+    "question": "Who wrote the play 'Romeo and Juliet'?",
+    "options": ["Charles Dickens", "William Shakespeare", "Mark Twain", "Jane Austen"],
+    "answer": "William Shakespeare"
+  },
+  {
+    "question": "What is the capital of Australia?",
+    "options": ["Sydney", "Melbourne", "Canberra", "Brisbane"],
+    "answer": "Canberra"
+  },
+  {
+    "question": "Which gas do plants absorb from the atmosphere?",
+    "options": ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"],
+    "answer": "Carbon Dioxide"
+  },
+  {
+    "question": "What is the fastest land animal?",
+    "options": ["Lion", "Cheetah", "Horse", "Kangaroo"],
+    "answer": "Cheetah"
+  },
+  {
+    "question": "Which country invented pizza?",
+    "options": ["Italy", "France", "United States", "Greece"],
+    "answer": "Italy"
+  },
+  {
+    "question": "What is the largest ocean on Earth?",
+    "options": ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
+    "answer": "Pacific Ocean"
+  },
+  {
+    "question": "Who is known as the father of computers?",
+    "options": ["Charles Babbage", "Alan Turing", "Bill Gates", "Steve Jobs"],
+    "answer": "Charles Babbage"
+  },
+  {
+    "question": "What is the currency of Japan?",
+    "options": ["Yuan", "Won", "Yen", "Ringgit"],
+    "answer": "Yen"
+  },
+  {
+    "question": "Which animal is known as the 'King of the Jungle'?",
+    "options": ["Tiger", "Lion", "Elephant", "Gorilla"],
+    "answer": "Lion"
+  },
+  {
+    "question": "What is the boiling point of water in Celsius?",
+    "options": ["50°C", "75°C", "100°C", "120°C"],
+    "answer": "100°C"
+  },
+  {
+    "question": "Which country is famous for inventing tea?",
+    "options": ["India", "China", "Japan", "England"],
+    "answer": "China"
+  }
+]
+
+const ques = document.getElementById("ques");
+const ansBtn = document.getElementById("ansBtns");
+const nxtBtn = document.getElementById("nxtBtn");
+
+let currentQuesIdx = 0;
+let score = 0;
 
 
-  <script src="script.js"></script>
-</body>
-</html>
+function strt() {
+    currentQuesIdx = 0;
+    score = 0;
+    nxtBtn.innerHTML = "Next";
+    showQues();
+}
+
+function showQues() {
+    resetState();
+
+    if (currentQuesIdx >= questions.length) {
+        console.error("Invalid question index:", currentQuesIdx);
+        return;
+    }
+
+    let currQues = questions[currentQuesIdx];
+    if (!currQues || !currQues.question) {
+        console.error("Invalid question object:", currQues);
+        return;
+    }
+
+    let quesNum = currentQuesIdx + 1;
+    ques.innerHTML = `${quesNum}. ${currQues.question}`;
+
+    currQues.options.forEach(option => {
+        const button = document.createElement("button");
+        button.innerHTML = option;
+        button.classList.add("btn");
+        ansBtn.appendChild(button);
+        if (option === currQues.answer) {
+            button.dataset.correct = "true";
+        }
+        button.addEventListener("click", selectAns);
+    });
+}
+
+function resetState() {
+    nxtBtn.style.display = "none";
+    while (ansBtn.firstChild) {
+        ansBtn.removeChild(ansBtn.firstChild);
+    }
+}
+
+function selectAns(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+        selectedBtn.classList.add("correct");
+        score++;
+    } else {
+        selectedBtn.classList.add("incorrect");
+    }
+    Array.from(ansBtn.children).forEach(button => {
+        if (button.dataset.correct === "true") {
+            button.classList.add("correct");
+        }
+        button.disabled = true;
+    });
+    nxtBtn.style.display = "block";
+}
+
+nxtBtn.addEventListener("click", () => {
+    if (currentQuesIdx < questions.length) {
+        handleNxtBtn();
+    } else {
+        strt();
+    }
+});
+
+function handleNxtBtn() {
+    currentQuesIdx++;
+    if (currentQuesIdx < questions.length) {
+        showQues();
+    } else {
+        showScore();
+    }
+}
+
+function showScore() {
+    resetState();
+    ques.innerHTML = `You scored ${score} out of ${questions.length}!`;
+    nxtBtn.innerHTML = "Play Again";
+    nxtBtn.style.display = "block";
+}
+
+strt();
+
+
+</script>
+  </html>
